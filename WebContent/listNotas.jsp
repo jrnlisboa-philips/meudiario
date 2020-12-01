@@ -6,9 +6,9 @@
 <main>
 	
 	<div class="jumbotron row">
-		<h1>Meu Diário</h1>
+		<h1 class="text-primary text-block">Bem-vindo, <c:out value="${usuarioName }" /> </h1>
 		<br>
-		<h3>Listagem de Notas </h3>
+		<h2>Meu Diário! Listagem de Notas. Veja suas notas. </h2>
 	</div>
 	
 	<div class="row mb-3">
@@ -17,22 +17,29 @@
 	
 	<div class="row">
 		<c:if test="${listSize > 0 }">
-			<ul class="list-group list-align-center col">
-				<c:forEach var="nota" items="${listNotas }"  >
-					<li class="list-group-items"> 
+			<ul class="list-group col d-flex ">
+				<c:forEach var="nota" items="${listaNotas }"  >
+					<li onclick="verNota(${nota.id});" style="cursor: pointer;" class="list-group-item d-flex justify-content-between align-items-center"> 
 						<span class="badge badge-dark">
 							<c:out value="${nota.id }" />
 						</span>
-						<span class="text-light bg-info">
+						<span class="">
 							<c:out value="${nota.assunto }" />
 						</span> 
 						<span class="badge badge-info">
 							<c:out value="${nota.dtNota }" />
 						</span>
-						<div class="float-right">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editNotaModal">
+						<div class="d-flex align-items-center">
+							<button type="button" class="btn btn-sm btn-primary" onclick="editRegModal(${nota.id});">
 							  <i class="fas fa-edit"></i>
 							</button>
+							<form action="notas" method="get" onsubmit="return confirm('Deseja apagar a nota ${nota.assunto} ?');">
+								<input type="hidden" name="action" value="del">
+								<input type="hidden" name="id" value="${nota.id }">
+								<button class="btn btn-sm btn-danger">
+									<i class="far fa-trash-alt"></i>
+								</button>
+							</form>
 						</div>
 					</li>
 				</c:forEach>
